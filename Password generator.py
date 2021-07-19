@@ -28,9 +28,16 @@ while True:
         if Masterpassword=="Sample":       #You can enter whatever master password you want for the file.
             with open ("Passwords.txt","r") as R:
                 print (R.read())
-        while Masterpassword!="Sample":
-            print ("Invaid password given.")
-            Masterpassword=str(input("Enter the master password - "))
+        if Masterpassword!="Sample":
+            Attempts=0
+            Threshold=2
+            while Attempts<Threshold:
+                print ("Invalid password given.")
+                Attempts+=1
+                Masterpassword=str(input("Enter the master password - "))
+                if Attempts==Threshold:
+                    print ("Too many attempts, program quit.")     #Program automatically quits after 3 attempts to give the master password.
+                    quit()
         with open ("Passwords.txt","r") as R:
             print (R.read())
     if Open=="Write":
@@ -47,6 +54,7 @@ while True:
                     Password=Password+x
                 W.write(Name + " | " + Password + "\n")
                 print ("This password and name is now stored into the file.")
+                print ("To read these passwords you have to enter the master password under the Read choice.")
                 if not Generate_new():
                     break
     if not Continue():
