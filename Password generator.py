@@ -1,5 +1,10 @@
 import random
 import array
+def Generate_new():
+    Again=str(input("Would you like to generate a new password? (Yes/No) "))
+    if Again=="No":
+        return False
+    return True
 def Continue():
     Again=str(input("Would you like to use this program again? (Yes/No) "))
     if Again=="No":
@@ -16,19 +21,33 @@ Upper=random.choice(Alphabet_Upper)
 Symbol=random.choice(Symbols)
 Pass=Digit+Lower+Upper+Symbol
 print ("This program will generate a random but strong password for you and store it safely in a file.")
-Use=str(input("Do you want to use this program? (Yes/No) "))
-if Use=="No":
-    quit()
-if Use=="Yes":
-    print ("To generate a safe and strong password there are a few parameters.")
-    print ("This program is very customizable so you can choose what sorts of numbers, alphabets and symbols go into it.")
-    Characters=int(input("Enter the number of characters in the password - "))
-    Name=str(input("Enter the username or email this password is attached to - "))
-    for x in range (Characters):
-        Pass= Pass+ random.choice(Main)
-        PassList=array.array('u',Pass)
-        random.shuffle(PassList)
-    Password=""
-    for x in PassList:
-        Password=Password+x
-    print ("Your randomly generated password is ",Password)
+while True:
+    Open=str(input("Do you want to read the current passwords or generate and write new ones? (Read/Write) "))
+    if Open=="Read":
+        Masterpassword=str(input("Enter the master password - "))
+        if Masterpassword=="Sample":       #You can enter whatever master password you want for the file.
+            with open ("Passwords.txt","r") as R:
+                print (R.read())
+        while Masterpassword!="Sample":
+            print ("Invaid password given.")
+            Masterpassword=str(input("Enter the master password - "))
+        with open ("Passwords.txt","r") as R:
+            print (R.read())
+    if Open=="Write":
+        with open ("Passwords.txt","a") as W:
+            while True:
+                Characters=int(input("Enter the number of characters in the password - "))
+                Name=str(input("Enter the username or email this password is attached to - "))
+                for x in range (Characters):
+                    Pass= Pass+ random.choice(Main)
+                    PassList=array.array('u',Pass)
+                    random.shuffle(PassList)
+                Password=""
+                for x in PassList:
+                    Password=Password+x
+                W.write(Name + " | " + Password + "\n")
+                print ("This password and name is now stored into the file.")
+                if not Generate_new():
+                    break
+    if not Continue():
+        break
