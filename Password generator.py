@@ -38,8 +38,6 @@ while True:
                 if Attempts==Threshold:
                     print ("Too many attempts, program quit.")     #Program automatically quits after 3 attempts to give the master password.
                     quit()
-        with open ("Passwords.txt","r") as R:
-            print (R.read())
     if Open=="Write":
         with open ("Passwords.txt","a") as W:
             while True:
@@ -47,7 +45,7 @@ while True:
                 Name=str(input("Enter the username or email this password is attached to - "))
                 for x in range (Characters):
                     Pass= Pass+ random.choice(Main)
-                    PassList=array.array('u',Pass)
+                    PassList=array.array(Pass)
                     random.shuffle(PassList)
                 Password=""
                 for x in PassList:
